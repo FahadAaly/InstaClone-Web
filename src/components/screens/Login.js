@@ -1,13 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { request } from "../../http-helper";
-import M from "materialize-css";
 import { connect } from "react-redux";
 import {bindActionCreators} from 'redux';
 import * as Actions from "../../actions/userActions";
-import jwt_decode from 'jwt-decode';
 
-const Login = ({actions}) => {
+const Login = ({actions, isLoggedIn}) => {
 
   const formData = {
     email: "",
@@ -16,6 +13,12 @@ const Login = ({actions}) => {
 
   const [state, setState] = useState(formData);
   const history = useHistory();
+
+  useEffect(() => {
+    if(isLoggedIn) {
+      history.push('/');
+    }
+  })
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -59,7 +62,7 @@ const Login = ({actions}) => {
 };
 
 const mapStateToProps = (props) => ({
-  user: props.userReducer.user,
+  isLoggedIn: props.userReducer.isLoggedIn,
 });
 
 const mapDispatchToProps = (dispatch) => ({

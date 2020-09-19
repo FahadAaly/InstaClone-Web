@@ -20,7 +20,7 @@ export const loginUser = (userData, history) => {
         dispatch({ type: SUCCESS_MESSAGE, payload: message });
         localStorage.setItem("token", res.token);
         const decoded = jwt_decode(res.token);
-        setCurrentUser(decoded);
+        dispatch(setCurrentUser(decoded));
         history.push("/");
       }
     });

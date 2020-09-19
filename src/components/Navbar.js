@@ -1,6 +1,38 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-const NavBar = () => {
+import { connect } from 'react-redux';
+
+const NavBar = ({isLoggedIn}) => {
+  console.log(isLoggedIn, 'login');
+  const [ isLogged, setIsLoggedIn ] = useState(false);
+
+  useEffect(() => {
+    if(isLoggedIn) {
+      setIsLoggedIn(true);
+    }
+  }, [isLoggedIn]);
+
+  const renderLinks = () => {
+    if (isLogged) {
+      return [
+        <li>
+          <Link to="/profile">Profile</Link>
+        </li>,
+        <li>
+          <Link to="/create">Create Post</Link>
+        </li>
+      ]
+    } else {
+      return [
+        <li>
+          <Link to="/login">Login</Link>
+        </li>,
+        <li>
+          <Link to="/signup">SignUp</Link>
+        </li>
+      ]
+    }
+  }
   return (
     <nav>
       <div className="nav-wrapper white">
@@ -8,22 +40,15 @@ const NavBar = () => {
           Instagram
         </Link>
         <ul id="nav-mobile" className="right">
-          <li>
-            <Link to="/login">Login</Link>
-          </li>
-          <li>
-            <Link to="/signup">SignUp</Link>
-          </li>
-          <li>
-            <Link to="/profile">Profile</Link>
-          </li>
-          <li>
-            <Link to="/create">Create Post</Link>
-          </li>
+         {renderLinks()}
         </ul>
       </div>
     </nav>
   );
 };
 
-export default NavBar;
+const mapStateToProps = state => ({
+  isLoggedIn: state.userReducer.isLoggedIn,
+});
+
+export default connect(mapStateToProps)(NavBar);

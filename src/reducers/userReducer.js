@@ -2,7 +2,7 @@ import { SET_USER } from "../constants/action-types";
 
 const initialState = {
   user: {},
-  isAuthenticated: false,
+  isLoggedIn: false,
 };
 
 const userReducer = (state = initialState, action) => {
@@ -10,7 +10,7 @@ const userReducer = (state = initialState, action) => {
     return  {
       ...state,
       user: action.payload,
-      isAuthenticated: true,
+      isLoggedIn: true,
     };
   } 
   return state;
