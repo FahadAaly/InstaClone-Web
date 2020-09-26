@@ -1,16 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as Actions from "../actions/userActions";
 
-const NavBar = ({isLoggedIn}) => {
-  console.log(isLoggedIn, 'login');
-  const [ isLogged, setIsLoggedIn ] = useState(false);
+const NavBar = ({ isLoggedIn, actions }) => {
+  const [isLogged, setIsLoggedIn] = useState(false);
+  const history = useHistory();
 
   useEffect(() => {
-    if(isLoggedIn) {
+    if (isLoggedIn) {
       setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
     }
   }, [isLoggedIn]);
+
+  const onLogOut = () => {
+    actions.logoutAction(history);
+  }
 
   const renderLinks = () => {
     if (isLogged) {
@@ -20,6 +28,9 @@ const NavBar = ({isLoggedIn}) => {
         </li>,
         <li>
           <Link to="/create">Create Post</Link>
+        </li>,
+        <li>
+          <button className="btn #c62828 red darken-3" onClick={onLogOut}>LogOut</button>
         </li>
       ]
     } else {
@@ -40,7 +51,7 @@ const NavBar = ({isLoggedIn}) => {
           Instagram
         </Link>
         <ul id="nav-mobile" className="right">
-         {renderLinks()}
+          {renderLinks()}
         </ul>
       </div>
     </nav>
@@ -51,4 +62,7 @@ const mapStateToProps = state => ({
   isLoggedIn: state.userReducer.isLoggedIn,
 });
 
-export default connect(mapStateToProps)(NavBar);
+const mapDispatchToProps = (dispatch) => ({
+  actions: bindActionCreators(Actions, dispatch)
+})
+export default connect(mapStateToProps, mapDispatchToProps)(NavBar);

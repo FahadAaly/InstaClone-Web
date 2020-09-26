@@ -1,13 +1,14 @@
 import {
-  SET_USER,
+  LOGIN_SUCCESS,
   GET_ERRORS,
   SUCCESS_MESSAGE,
+  LOGUT_SUCCESS
 } from "../constants/action-types";
 import { request } from "../http-helper";
 import jwt_decode from "jwt-decode";
 
 export const setCurrentUser = (payload) => {
-  return { type: SET_USER, payload };
+  return { type: LOGIN_SUCCESS, payload };
 };
 
 export const loginUser = (userData, history) => {
@@ -25,4 +26,10 @@ export const loginUser = (userData, history) => {
       }
     });
   };
+};
+
+export const logoutAction = (history) => {
+  localStorage.removeItem("token");
+  history.push('/login');
+  return { type: LOGUT_SUCCESS };
 };

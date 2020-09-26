@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { connect } from "react-redux";
-import {bindActionCreators} from 'redux';
-import * as Actions from "../../actions/userActions";
+import M from "materialize-css";
+import { request } from "../http-helper";
 
-const Login = ({actions, isLoggedIn}) => {
-
+const SignUp = () => {
   const formData = {
+    name: "",
     email: "",
     password: "",
   };
@@ -14,25 +13,34 @@ const Login = ({actions, isLoggedIn}) => {
   const [state, setState] = useState(formData);
   const history = useHistory();
 
-  useEffect(() => {
-    if(isLoggedIn) {
-      history.push('/');
-    }
-  })
-
   const handleChange = (event) => {
     const { name, value } = event.target;
     setState({ ...state, [name]: value });
   };
 
-  const hanldeSubmit = () => {
-    actions.loginUser(state, history);
+  const handleSubmit = () => {
+    request("/signup", "post", state).then((res) => {
+      const {error, message} = res;
+      if (error) {
+        M.toast({ html: error, classes: "red darken-3" });
+      } else {
+        M.toast({ html: message, classes: "green darken-3" });
+        history.push("/login");
+      }
+    });
   };
 
   return (
     <div className="login">
       <div className="card auth-card">
         <h2>Instagram</h2>
+        <input
+          type="text"
+          name="name"
+          placeholder="name"
+          value={state.name}
+          onChange={handleChange}
+        />
         <input
           type="text"
           name="email"
@@ -49,24 +57,16 @@ const Login = ({actions, isLoggedIn}) => {
         />
         <button
           className="btn waves-effect waves-light blue lighten-2"
-          onClick={hanldeSubmit}
+          onClick={handleSubmit}
         >
-          Login
+          Sign Up
         </button>
         <h5>
-          <Link to="/signup">Dont have an account?</Link>
+          <Link to="/login">Already have an account?</Link>
         </h5>
       </div>
     </div>
   );
 };
 
-const mapStateToProps = (props) => ({
-  isLoggedIn: props.userReducer.isLoggedIn,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-	actions: bindActionCreators(Actions, dispatch)
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default SignUp;

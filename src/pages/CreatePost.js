@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { request } from "../../http-helper";
+import { request } from "../http-helper";
 import M from "materialize-css";
 
 const CreatePost = () => {

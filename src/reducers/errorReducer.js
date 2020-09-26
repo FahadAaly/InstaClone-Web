@@ -7,7 +7,6 @@ const errorReducer = (state = initialState, action)  => {
   switch (action.type) {
     case GET_ERRORS:
       return M.toast({ html: action.payload, classes: "red darken-3" });
-      // return action.payload;
     default:
       return state;
   }
