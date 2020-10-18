@@ -20,13 +20,20 @@ export const loginUser = (userData, history) => {
       } else {
         dispatch({ type: SUCCESS_MESSAGE, payload: message });
         localStorage.setItem("token", res.token);
-        const decoded = jwt_decode(res.token);
-        dispatch(setCurrentUser(decoded));
+        dispatch(setCurrentUser(res.user));
         history.push("/");
       }
     });
   };
 };
+
+export const getUserData = () => {
+  return (dispatch) => {
+    return request("/user", "get", "", true).then((res) => {
+      dispatch(setCurrentUser(res.data));
+    });
+  }
+}
 
 export const logoutAction = (history) => {
   localStorage.removeItem("token");

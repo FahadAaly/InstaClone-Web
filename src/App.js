@@ -10,14 +10,13 @@ import { BrowserRouter, Route, Switch, useHistory } from "react-router-dom";
 import PrivateRoute from "./components/PrivateRoute";
 import { Provider } from "react-redux";
 import store from "./store/index";
-import { setCurrentUser, logoutAction } from "./actions/userActions";
+import { setCurrentUser, logoutAction, getUserData } from "./actions/userActions";
 import jwt_decode from "jwt-decode";
 
 const Routing = () => {
   const history = useHistory();
   if (localStorage.getItem("token")) {
-    const decoded = jwt_decode(localStorage.getItem("token"));
-    store.dispatch(setCurrentUser(decoded));
+    store.dispatch(getUserData());
   } else {
     history.push('/login');
   }

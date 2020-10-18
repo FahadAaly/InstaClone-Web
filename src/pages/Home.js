@@ -15,9 +15,17 @@ const Home = ({ actions, posts }) => {
     setData(posts)
   }, [posts]);
 
+  const onHandleLikeDislike = (id, likeByUser) => {
+    if (likeByUser) {
+      actions.unlikePost(id);
+    } else {
+      actions.likePost(id);
+    }
+  }
+
   return (
     <div className="home">
-      {data?.map((post, i) => <PostItem post={post} key={i} />)}
+      {data?.map((post, i) => <PostItem post={post} key={i} onHandleLikeDislike={onHandleLikeDislike} />)}
     </div>
   );
 };
