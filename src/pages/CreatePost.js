@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import { request } from "../http-helper";
 import M from "materialize-css";
 
 const CreatePost = () => {
+  const history = useHistory();
   const formData = {
     title: "",
     description: "",
@@ -21,6 +23,7 @@ const CreatePost = () => {
           M.toast({ html: res.error, classes: "red darken-3" });
         } else {
           M.toast({ html: res.message, classes: "green darken-3" });
+          history.push("/");
         }
       });
     }
