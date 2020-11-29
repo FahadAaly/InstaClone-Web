@@ -5,7 +5,6 @@ import {
   LOGUT_SUCCESS
 } from "../constants/action-types";
 import { request } from "../http-helper";
-import jwt_decode from "jwt-decode";
 
 export const setCurrentUser = (payload) => {
   return { type: LOGIN_SUCCESS, payload };

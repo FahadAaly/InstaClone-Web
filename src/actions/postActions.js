@@ -1,4 +1,4 @@
-import { GET_ALL_POSTS, GET_MY_POSTS, POST_LIKE_SUCCESS, POST_UNLIKE_SUCCESS } from "../constants/action-types";
+import { GET_ALL_POSTS, GET_MY_POSTS, POST_LIKE_SUCCESS, POST_UNLIKE_SUCCESS, MAKE_COMMENT_SUCCESS, SUCCESS_MESSAGE } from "../constants/action-types";
 import { request } from "../http-helper";
 
 export const getAllPosts = () => {
@@ -38,3 +38,31 @@ export const unlikePost = (id) => {
         });
     };
 }
+
+export const makeComment = (text, postId) => {
+    const body = {
+        text: text,
+        postId: postId,
+    }
+    return (dispatch) => {
+        return request("/comment", "put", body, true).then((res) => {
+            dispatch({ type: SUCCESS_MESSAGE, payload: res.message });
+            dispatch({ type: MAKE_COMMENT_SUCCESS, payload: res.data });
+        });
+    };
+}
+
+export const deletePost = (postId) => {
+    const body = {
+        postId: postId,
+    }
+    return (dispatch) => {
+        return request(`/deletepost/${postId}`, "delete", "", true).then((res) => {
+            // dispatch({ type: SUCCESS_MESSAGE, payload: res.message });
+            // dispatch({ type: MAKE_COMMENT_SUCCESS, payload: res.data });
+            console.log('res', res);
+        });
+    };
+}
+
+
