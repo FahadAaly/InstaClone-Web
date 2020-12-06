@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as postActions from "../actions/postActions";
+import NotFound from "../common/notFound";
 import PostItem from "../components/PostItem";
 
 const Home = ({ actions, posts, user }) => {
-    const [data, setData] = useState([]);
+    const [postsList, setData] = useState([]);
 
     useEffect(() => {
         actions.getAllPosts();
@@ -31,9 +32,13 @@ const Home = ({ actions, posts, user }) => {
         actions.deletePost(postId);
     };
 
+    const onHandleDeleteComment = (commentId, postId) => {
+        actions.deleteComment(commentId, postId);
+    };
+
     return (
         <div className="home">
-            {data?.map((post, i) => (
+            {postsList.map((post, i) => (
                 <PostItem
                     user={user}
                     post={post}
@@ -41,8 +46,14 @@ const Home = ({ actions, posts, user }) => {
                     onHandleLikeDislike={onHandleLikeDislike}
                     makeComment={makeComment}
                     onHandleDeletePost={onHandleDeletePost}
+                    onHandleDeleteComment={onHandleDeleteComment}
                 />
             ))}
+            {postsList.length == 0 && (
+                <NotFound>
+                    <h2>No Post found</h2>
+                </NotFound>
+            )}
         </div>
     );
 };

@@ -1,10 +1,12 @@
 import React from "react";
+import DeleteIcon from "../common/deleteIcon";
 
 const PostItem = ({
     post,
     onHandleLikeDislike,
     makeComment,
     onHandleDeletePost,
+    onHandleDeleteComment,
     user,
 }) => {
     const {
@@ -33,8 +35,15 @@ const PostItem = ({
                     <h6 key={i}>
                         <span style={{ fontWeight: "bold" }}>
                             {comment.postedBy.name}
-                        </span>
-                        {comment.text}
+                        </span>{" "}
+                        &nbsp;
+                        {comment.text};
+                        <DeleteIcon
+                            className="float-right cursor-pointer"
+                            onHandleClick={() =>
+                                onHandleDeleteComment(comment._id, post._id)
+                            }
+                        />
                     </h6>
                 );
             })
@@ -46,13 +55,10 @@ const PostItem = ({
             <h5>
                 {postedBy?.name}
                 {user?._id === postedBy?._id && (
-                    <i
-                        style={{ float: "right" }}
-                        className="material-icons"
-                        onClick={() => onHandleDeletePost(post._id)}
-                    >
-                        delete
-                    </i>
+                    <DeleteIcon
+                        className="float-right cursor-pointer"
+                        onHandleClick={() => onHandleDeletePost(post._id)}
+                    />
                 )}
             </h5>
             <div className="card-image">
