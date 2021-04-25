@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux';
 import * as postActions from "../actions/postActions";
 
 const Profile = ({ actions, userPosts, user }) => {
-  console.log('user', user);
   const [data, setData] = useState([]);
 
   useEffect(() => {

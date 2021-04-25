@@ -3,6 +3,7 @@ import { LOGIN_SUCCESS, LOGUT_SUCCESS } from "../constants/action-types";
 const initialState = {
   user: {},
   isLoggedIn: false,
+  isLoading: true,
 };
 
 const userReducer = (state = initialState, action) => {
@@ -11,6 +12,7 @@ const userReducer = (state = initialState, action) => {
       ...state,
       user: action.payload,
       isLoggedIn: true,
+      isLoading: false,
     };
   }
   if(action.type === LOGUT_SUCCESS) {
